@@ -6,9 +6,9 @@ const {
   updateUserByID,
   deleteUserbyID,
 } = require("../services/CRUDservice");
-
+const User = require("../models/user");
 const getHomepage = async (req, res) => {
-  const rows = await getAllUsers();
+  const rows = [];
   res.render("home.ejs", { listResult: rows });
 };
 
@@ -17,17 +17,16 @@ const getCreateNewUser = (req, res) => res.render("create.ejs");
 const postCreateNewUser = async (req, res) => {
   const { inputLastName, inputFirstName, inputEmail, inputAddress, inputCity } =
     req.body;
-  const syntaxSQL = `INSERT INTO Persons (LastName, email, FirstName, Address, City) VALUES (?, ?, ?, ?, ?)`;
 
   try {
-    await connection.query(syntaxSQL, [
-      inputLastName,
-      inputEmail,
-      inputFirstName,
-      inputAddress,
-      inputCity,
-    ]);
-    res.redirect("/");
+    await User.create({
+      lastname: inputLastName,
+      firstname: inputFirstName,
+      email: inputEmail,
+      address: inputAddress,
+      city: inputCity,
+    });
+    res.send("Success create MongoDB");
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred");
