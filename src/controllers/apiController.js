@@ -11,7 +11,7 @@ const postCreateNewUserAPI = async (req, res) => {
     req.body;
 
   try {
-    let newUser = await User.create({
+    let user = await User.create({
       lastname: inputLastName,
       firstname: inputFirstName,
       email: inputEmail,
@@ -20,7 +20,7 @@ const postCreateNewUserAPI = async (req, res) => {
     });
     return res.status(200).json({
       error: 0,
-      data: newUser,
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -28,4 +28,29 @@ const postCreateNewUserAPI = async (req, res) => {
   }
 };
 
-module.exports = { getUsersAPI, postCreateNewUserAPI };
+const putUpdateUserAPI = async (req, res) => {
+  const {
+    inputLastName,
+    inputFirstName,
+    inputEmail,
+    inputAddress,
+    inputCity,
+    UserID,
+  } = req.body;
+  let user = await User.updateOne(
+    { _id: UserID },
+    {
+      lastname: inputLastName,
+      firstname: inputFirstName,
+      address: inputAddress,
+      email: inputEmail,
+      city: inputCity,
+    }
+  );
+  res.status(200).json({
+    error: 0,
+    data: user,
+  });
+};
+
+module.exports = { getUsersAPI, postCreateNewUserAPI, putUpdateUserAPI };
