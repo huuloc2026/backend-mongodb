@@ -45,13 +45,13 @@
     <div class="d-flex justify-content-center align-items-center min-vh-100">
       <div class="card p-4 shadow-lg" style="max-width: 600px; width: 100%">
         <h3 class="text-center mb-4">Update Person</h3>
-        <form action="/update-user" method="POST">
+        <form method="post">
           <div class="row">
             <div class="form-group col-md-6 d-none">
               <label for="inputLastName">UserID</label>
               <input
                 type="text"
-                value="<%=userUpdate.PersonID%>"
+                value="<%=userUpdate._id%>"
                 class="form-control"
                 name="UserID"
                 placeholder="ID"
@@ -61,7 +61,7 @@
               <label for="inputLastName">Last Name</label>
               <input
                 type="text"
-                value="<%=userUpdate.LastName%>"
+                value="<%=userUpdate.lastname%>"
                 class="form-control"
                 name="inputLastName"
                 placeholder="Last Name"
@@ -70,7 +70,7 @@
             <div class="form-group col-md-6">
               <label for="inputFirstName">First Name</label>
               <input
-                value="<%=userUpdate.FirstName%>"
+                value="<%=userUpdate.firstname%>"
                 type="text"
                 class="form-control"
                 name="inputFirstName"
@@ -96,7 +96,7 @@
                 class="form-control"
                 name="inputAddress"
                 placeholder="Address"
-                value="<%=userUpdate.Address%>"
+                value="<%=userUpdate.address%>"
               />
             </div>
           </div>
@@ -107,10 +107,12 @@
               class="form-control"
               name="inputCity"
               placeholder="City"
-              value="<%=userUpdate.City%>"
+              value="<%=userUpdate.city%>"
             />
           </div>
-          <button type="submit" class="btn btn-info my-4 p-2">Update</button>
+          <form>
+            <button type="submit" class="btn btn-info my-4 p-2">Update</button>
+          </form>
         </form>
       </div>
     </div>

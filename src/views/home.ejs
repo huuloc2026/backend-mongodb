@@ -90,22 +90,21 @@
           <tbody>
             <% for (let i = 0; i < listResult.length; i++) { %>
             <tr>
-              <td><%=listResult[i].PersonID%></td>
-              <td><%=listResult[i].LastName%></td>
-              <td><%=listResult[i].FirstName%></td>
+              <td><%=listResult[i].id%></td>
+              <td><%=listResult[i].lastname%></td>
+              <td><%=listResult[i].firstname%></td>
               <td><%=listResult[i].email%></td>
-              <td><%=listResult[i].Address%></td>
-              <td><%=listResult[i].City%></td>
+              <td><%=listResult[i].address%></td>
+              <td><%=listResult[i].city%></td>
               <td>
                 <div class="btn btn-outline-primary btn-custom">
-                  <a href="/update/<%=listResult[i].PersonID%>">Update</a>
+                  <a href="/update/<%=listResult[i].id%>">Update</a>
                 </div>
                 <form
-                  action="/delete-user/<%=listResult[i].PersonID%>"
                   method="POST"
-                  class="d-inline"
+                  action="/delete-user/<%=listResult[i].id %>"
                 >
-                  <button class="btn btn-outline-danger btn-custom">
+                  <button type="submit" class="btn btn-outline-danger">
                     Delete
                   </button>
                 </form>

@@ -8,7 +8,7 @@ const {
 } = require("../services/CRUDservice");
 const User = require("../models/user");
 const getHomepage = async (req, res) => {
-  const rows = [];
+  const rows = await User.find({});
   res.render("home.ejs", { listResult: rows });
 };
 
@@ -26,7 +26,7 @@ const postCreateNewUser = async (req, res) => {
       address: inputAddress,
       city: inputCity,
     });
-    res.send("Success create MongoDB");
+    res.redirect("/");
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred");
@@ -34,7 +34,9 @@ const postCreateNewUser = async (req, res) => {
 };
 
 const getUpdateNewUser = async (req, res) => {
-  const user = await getUserbyID(req.params.userID);
+  // const user = await getUserbyID(req.params._id);
+  const userID = req.params;
+  let user = await User.findById(userID.id).exec();
   res.render("update.ejs", { userUpdate: user });
 };
 
@@ -47,24 +49,32 @@ const postUpdateUser = async (req, res) => {
     inputCity,
     UserID,
   } = req.body;
-  await updateUserByID(
-    inputLastName,
-    inputEmail,
-    inputFirstName,
-    inputAddress,
-    inputCity,
-    UserID
+  await User.updateOne(
+    { _id: UserID },
+    {
+      lastname: inputLastName,
+      firstname: inputFirstName,
+      address: inputAddress,
+      email: inputEmail,
+      city: inputCity,
+    }
   );
+
   res.redirect("/");
 };
 
 const postDeleteUser = async (req, res) => {
-  const user = await getUserbyID(req.params.userID);
+  const userID = await req.params.id;
+
+  // console.log(userID.id);
+  let user = await User.findById(userID).exec();
   res.render("delete.ejs", { userUpdate: user });
 };
 
 const postHandleSubmitDel = async (req, res) => {
-  await deleteUserbyID(req.body.UserID);
+  const userID = req.body.UserID;
+
+  await User.deleteOne({ _id: userID });
   res.redirect("/");
 };
 
