@@ -7,10 +7,13 @@ const configViewEngine = require("./config/viewEngine");
 const app = express();
 const port = process.env.PORT || 8888;
 const hostname = process.env.HOST_NAME;
-
+const fileUpload = require("express-fileupload");
 const webRoute = require("./routes/web");
 const apiroute = require("./routes/api");
 const connection = require("./config/database");
+
+//file file upload
+app.use(fileUpload());
 //config template engine
 configViewEngine(app);
 
