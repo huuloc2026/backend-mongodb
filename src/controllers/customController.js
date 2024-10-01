@@ -6,6 +6,9 @@ const {
 const {
   CreateCustomerService,
   CreateListCustomerService,
+  getAllCustomerService,
+  DeleteCustomerService,
+  UpdateCustomerService,
 } = require("../services/customerService");
 // { key : value}
 module.exports = {
@@ -54,6 +57,49 @@ module.exports = {
       return res.status(400).json({
         error: error,
         NewData: null,
+      });
+    }
+  },
+  getAllCustomerAPI: async (req, res) => {
+    try {
+      let AllUser = await getAllCustomerService();
+      return res.status(200).json({
+        error: 0,
+        data: AllUser,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        error: error,
+        data: null,
+      });
+    }
+  },
+  PostDeleteCustomerAPI: async (req, res) => {
+    try {
+      let IDofCustomer = await req.body.id;
+      let result = await DeleteCustomerService(IDofCustomer);
+      return res.status(200).json({
+        error: 0,
+        data: result,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        error: error,
+        return: null,
+      });
+    }
+  },
+  PostUpdateCustomerAPI: async (req, res) => {
+    try {
+      let result = await UpdateCustomerService(req.body);
+      return await res.status(200).json({
+        error: 0,
+        data: result,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        error: error,
+        return: null,
       });
     }
   },

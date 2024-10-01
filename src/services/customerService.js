@@ -26,4 +26,51 @@ const CreateListCustomerService = async (array) => {
     return null;
   }
 };
-module.exports = { CreateCustomerService, CreateListCustomerService };
+const getAllCustomerService = async () => {
+  try {
+    let AllCustomer = await Customer.find({});
+    return AllCustomer;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
+};
+
+const DeleteCustomerService = async (customerData) => {
+  try {
+    let DeleteCustomer = await Customer.findOneAndDelete({ _id: customerData });
+    return DeleteCustomer;
+  } catch (error) {
+    return res.status(400).json(err);
+  }
+};
+
+const UpdateCustomerService = async (customerData) => {
+  try {
+    let UpdateCustomer = await Customer.findOneAndUpdate(
+      {
+        _id: customerData.id,
+      },
+      {
+        name: customerData.name,
+        phone: customerData.phone,
+        email: customerData.email,
+        address: customerData.address,
+        city: customerData.city,
+        description: customerData.description,
+        image: customerData.image,
+      },
+      { new: true } // Options of moogose
+    );
+    return UpdateCustomer;
+  } catch (error) {
+    return res.status(400).json(err);
+  }
+};
+module.exports = {
+  CreateCustomerService,
+  CreateListCustomerService,
+  getAllCustomerService,
+  DeleteCustomerService,
+  UpdateCustomerService,
+};
