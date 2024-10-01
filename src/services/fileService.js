@@ -1,4 +1,3 @@
-const { timeStamp } = require("console");
 const path = require("path");
 
 const handleFilePath = (fileObject) => {
@@ -15,12 +14,25 @@ const handleFilePath = (fileObject) => {
 
   return filePath;
 };
+const handleHandleNameFile = (fileObject) => {
+  const timestamp = Date.now();
+  // Extract the file extension
+  const extension = path.extname(fileObject.name);
+  // Extract the file name without the extension
+  const fileNameWithoutExt = path.basename(fileObject.name, extension);
+  // Build the new file name with timestamp
+  const newFileName = `${fileNameWithoutExt}-${timestamp}${extension}`;
+  // Create the full file path
+  console.log(newFileName);
+  return newFileName;
+};
 const uploadSingleFile = async (fileObject) => {
   let uploadPath = handleFilePath(fileObject);
   try {
+    const path = handleHandleNameFile(fileObject);
     await fileObject.mv(uploadPath);
     console.log("******Success upload single file");
-    return { status: "success", path: "link-image", error: null };
+    return path;
   } catch (error) {
     return {
       status: "failed",
