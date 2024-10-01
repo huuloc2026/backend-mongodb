@@ -20,7 +20,6 @@ router.get("/update/:id", getUpdateNewUser);
 
 router.post("/update/:id", postUpdateUser);
 
-//
 router.post("/delete-user/:id", postDeleteUser);
 router.post("/delete-user/", postHandleSubmitDel);
 
