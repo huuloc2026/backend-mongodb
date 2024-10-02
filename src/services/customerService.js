@@ -26,13 +26,21 @@ const CreateListCustomerService = async (array) => {
     return null;
   }
 };
-const getAllCustomerService = async () => {
+const getAllCustomerService = async (limit, page) => {
   try {
-    let AllCustomer = await Customer.find({});
-    return AllCustomer;
+    let AllUser = null;
+    if (limit && page) {
+      const skipClient = (page - 1) * limit;
+      AllUser = await Customer.find({}).skip(skipClient).limit(limit).exec();
+    } else {
+      AllUser = await Customer.find({});
+    }
+    return AllUser;
   } catch (error) {
-    console.log("error", error);
-    return null;
+    return res.status(200).json({
+      error: error,
+      data: null,
+    });
   }
 };
 

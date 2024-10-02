@@ -35,4 +35,19 @@ routerAPI.post("/updatecustomer", PostUpdateCustomerAPI);
 //Delete a customer;
 routerAPI.post("/deletecustomer", PostDeleteCustomerAPI);
 
+///Query string
+routerAPI.get("/info", (req, res) => {
+  console.log(req.query);
+  return res.status(200).json({
+    data: req.query,
+  });
+});
+routerAPI.get("/info/:name/:city", (req, res) => {
+  console.log(req.params);
+  return res.status(200).json({
+    data: req.params,
+  });
+});
+
+//
 module.exports = routerAPI;

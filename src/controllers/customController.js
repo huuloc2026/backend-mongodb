@@ -62,11 +62,22 @@ module.exports = {
   },
   getAllCustomerAPI: async (req, res) => {
     try {
-      let AllUser = await getAllCustomerService();
-      return res.status(200).json({
-        error: 0,
-        data: AllUser,
-      });
+      const { limit, page } = req.query;
+      let AllUser = null;
+
+      if (limit && page) {
+        AllUser = await getAllCustomerService(limit, page);
+        return res.status(200).json({
+          error: 0,
+          data: AllUser,
+        });
+      } else {
+        AllUser = await getAllCustomerService();
+        return res.status(200).json({
+          error: 0,
+          data: AllUser,
+        });
+      }
     } catch (error) {
       return res.status(400).json({
         error: error,
