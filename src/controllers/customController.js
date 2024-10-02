@@ -23,7 +23,7 @@ module.exports = {
 
     const fileCheckpoint = req.files.image;
 
-    if (fileCheckpoint.length >= 2) {
+    if (Array.isArray(fileCheckpoint) && fileCheckpoint.length > 1) {
       let result = await uploadMultiFile(req.files.image);
       console.log(result);
     } else {
@@ -62,11 +62,10 @@ module.exports = {
   },
   getAllCustomerAPI: async (req, res) => {
     try {
-      const { limit, page } = req.query;
+      let { limit, page, name } = req.query;
       let AllUser = null;
-
       if (limit && page) {
-        AllUser = await getAllCustomerService(limit, page);
+        AllUser = await getAllCustomerService(limit, page, name, req.query);
         return res.status(200).json({
           error: 0,
           data: AllUser,

@@ -1,5 +1,7 @@
 const Customer = require("../models/customer");
+const aqp = require("api-query-params");
 
+//
 const CreateCustomerService = async (customerData) => {
   try {
     let result = await Customer.create({
@@ -26,18 +28,24 @@ const CreateListCustomerService = async (array) => {
     return null;
   }
 };
-const getAllCustomerService = async (limit, page) => {
+const getAllCustomerService = async (limit, page, name, queryString) => {
   try {
     let AllUser = null;
     if (limit && page) {
-      const skipClient = (page - 1) * limit;
-      AllUser = await Customer.find({}).skip(skipClient).limit(limit).exec();
-    } else {
+      const offset = (await (page - 1)) * limit;
+
+      const { filter } = await aqp(queryString);
+      delete filter.page;
+      AllUser = await Customer.find(filter).skip(offset).limit(limit).exec();
+    }
+    // // const skipClient = (page - 1) * limit;
+    // // AllUser = await Customer.find({}).skip(skipClient).limit(limit).exec();
+    else {
       AllUser = await Customer.find({});
     }
     return AllUser;
   } catch (error) {
-    return res.status(200).json({
+    return res.status(400).json({
       error: error,
       data: null,
     });
